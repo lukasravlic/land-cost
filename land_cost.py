@@ -32,7 +32,7 @@ def try_read_file(date_str):
     ruta_arch = f'{date_str} Actualizacion fechas diaria  Dts OEM.xlsx'
     ruta = os.path.join(carpeta_fechas, ruta_arch)
     if os.path.exists(ruta):
-        df_fechas = pd.read_excel(ruta, sheet_name='Data')
+        df_fechas = pd.read_excel(ruta, sheet_name='Data', dtype={'Nro. DT':'str'})
         print(f"File found: {ruta}")
         return df_fechas
     return None
@@ -126,7 +126,7 @@ except Exception as e:
 import time
 
 
-time.sleep(5)
+time.sleep(20)
 
 
 # %%
@@ -181,6 +181,7 @@ session.findById("wnd[0]").sendVKey(0)
 
 # Clear and set the focus on the user field
 session.findById("wnd[0]/usr/txtSO_USNAM-LOW").text = ""
+session.findById("wnd[0]/usr/ctxtSO_BUKRS-LOW").text = "cl02"
 session.findById("wnd[0]/usr/txtSO_USNAM-LOW").setFocus()
 session.findById("wnd[0]/usr/txtSO_USNAM-LOW").caretPosition = 0
 session.findById("wnd[0]").sendVKey(0)
@@ -244,7 +245,7 @@ session.findById("wnd[0]").sendVKey(3)
 session.findById("wnd[0]").sendVKey(3)
 session.findById("wnd[0]").sendVKey(3)
 
-time.sleep(5)
+time.sleep(20)
 
 
 
@@ -360,7 +361,7 @@ session.findById("wnd[1]/tbar[0]/btn[11]").press()
 session.findById("wnd[0]").sendVKey(3)
 session.findById("wnd[0]").sendVKey(3)
 
-time.sleep(5)
+
 
 
 
@@ -378,7 +379,7 @@ try:
 except Exception as e:
     print(e)
 
-
+time.sleep(20)
 df_iva = pd.read_excel(f"C:/Users/{usuario}/Inchcape/Planificación y Compras Chile - Documentos/Planificación y Compras KPI-Reportes/Land Cost/iva_r3.XLSX")
 df_iva=df_iva[['Referencia','Importe en moneda local']]
 df_iva = df_iva.groupby('Referencia').max().reset_index()
@@ -455,7 +456,7 @@ df_fechas_columnas = df_fechas[columnas]
 df_fechas_columnas['Nro. DT'] = df_fechas_columnas['Nro. DT'].astype('str')
 
 # %%
-df_fechas_columnas.to_csv('df_dts.csv')
+df_fechas_columnas.to_csv("C:/Users/lravlic/Inchcape/Planificación y Compras Chile - Documentos/Planificación y Compras KPI-Reportes/Land Cost/df_dts.csv")
 
 # %%
 
