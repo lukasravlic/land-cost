@@ -22,19 +22,20 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Define the directory path
-carpeta_fechas = f"C:/Users/{usuario}/Inchcape/Planificación y Compras Chile - Documentos/Planificación y Compras KPI-Reportes/Actualización diaria fechas DT/Actualización Diaria fechas Dts R3"
+carpeta_fechas = f"C:/Users/{usuario}/Inchcape/Planificación y Compras Chile - Documentos/Planificación y Compras KPI-Reportes/3.Actualización diaria fechas DT/Actualización Diaria fechas Dts R3 2025"
 
 # Maximum number of days to look back
 max_days_back = 30
 
 # Function to try reading the file for a given date
 def try_read_file(date_str):
-    ruta_arch = f'{date_str} Actualizacion fechas diaria  Dts OEM.xlsx'
-    ruta = os.path.join(carpeta_fechas, ruta_arch)
-    if os.path.exists(ruta):
-        df_fechas = pd.read_excel(ruta, sheet_name='Data', dtype={'Nro. DT':'str'})
-        print(f"File found: {ruta}")
-        return df_fechas
+    # Iterate over all files in the folder
+    for file_name in os.listdir(carpeta_fechas):
+        if date_str in file_name:  # Check if the date string is contained in the file name
+            ruta = os.path.join(carpeta_fechas, file_name)
+            df_fechas = pd.read_excel(ruta, sheet_name='Data', dtype={'Nro. DT': 'str'})
+            print(f"File found: {ruta}")
+            return df_fechas
     return None
 
 # Try to find a file for today and up to max_days_back days ago
@@ -152,7 +153,7 @@ comex = pd.read_excel(f"C:/Users/{usuario}/Inchcape/Planificación y Compras Chi
 dts_a_mir6 = comex[comex['Estatus']=='CERRADO']
 
 # %%
-dts_a_mir6.Estatus.value_counts()
+#dts_a_mir6.Estatus.value_counts()
 
 # %%
 dts_a_mir6['Nro. DT asociado'] = dts_a_mir6['Nro. DT asociado'].astype(str)
@@ -329,7 +330,7 @@ session.findById("wnd[0]/usr/radX_AISEL").select()
 session.findById("wnd[0]/usr/ctxtSD_SAKNR-LOW").text = "1104040001"
 session.findById("wnd[0]/usr/ctxtSD_BUKRS-LOW").text = "CL07"
 session.findById("wnd[0]/usr/ctxtSO_BUDAT-LOW").text = "01.01.2024"
-session.findById("wnd[0]/usr/ctxtSO_BUDAT-HIGH").text = "31.12.2024"
+session.findById("wnd[0]/usr/ctxtSO_BUDAT-HIGH").text = "31.12.2025"
 session.findById("wnd[0]/usr/ctxtSD_BUKRS-LOW").setFocus()
 session.findById("wnd[0]/usr/ctxtSD_BUKRS-LOW").caretPosition = 4
 session.findById("wnd[0]").sendVKey(8)
@@ -456,7 +457,7 @@ df_fechas_columnas = df_fechas[columnas]
 df_fechas_columnas['Nro. DT'] = df_fechas_columnas['Nro. DT'].astype('str')
 
 # %%
-df_fechas_columnas.to_csv("C:/Users/lravlic/Inchcape/Planificación y Compras Chile - Documentos/Planificación y Compras KPI-Reportes/Land Cost/df_dts.csv")
+df_fechas_columnas.to_csv(f"C:/Users/{usuario}/Inchcape/Planificación y Compras Chile - Documentos/Planificación y Compras KPI-Reportes/Land Cost/df_dts.csv")
 
 # %%
 
