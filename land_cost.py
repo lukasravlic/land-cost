@@ -479,11 +479,12 @@ minutes, seconds = divmod(time_difference, 60)
 
 print(f"{minutes} minutos y {seconds} segundos")
 
-# %%
-df_lc = pd.read_csv(f"C:/Users/{usuario}/Inchcape/Planificación y Compras Chile - Documentos/Planificación y Compras KPI-Reportes/Land Cost/base_landcost.csv")
 
-# %%
-df_lc.head()
+
+lc = pd.read_csv(f"C:/Users/{usuario}/Inchcape/Planificación y Compras Chile - Documentos/Planificación y Compras KPI-Reportes/Land Cost/base_landcost.csv")
+lc['Impte.bruto factura'] = lc['Impte.bruto factura'].apply(lambda x: '{:.1f}'.format(x).replace('.', ','))
+
+lc.to_csv(f"C:/Users/{usuario}/Inchcape/Planificación y Compras Chile - Documentos/Planificación y Compras KPI-Reportes/Land Cost/base_landcost_2.csv")
 
 # %%
 #antiguo = pd.read_excel(f"C:/Users/{usuario}/Inchcape/Planificación y Compras Chile - Documentos/Planificación y Compras KPI-Reportes/Reporteria/LAND COST/LAND COST 2024 JUNIO - OEM.xlsx", sheet_name = 'BD Final')
